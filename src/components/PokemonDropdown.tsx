@@ -6,6 +6,8 @@ const PokemonDropdown = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<string>("");
   const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
 
+  //NOTE: This is one good use of useEffect
+  // notice the double array dependency -> check the README
   useEffect(() => {
     if (selectedPokemon && !pokemonData) {
       axios
@@ -17,8 +19,9 @@ const PokemonDropdown = () => {
     }
   }, [pokemonData, selectedPokemon]);
 
+  //NOTE: let handlers validate onClicks
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    setPokemonData(null); // Reset data
+    setPokemonData(null); // Reset state
     setSelectedPokemon(event.target.value);
   };
 
@@ -29,14 +32,12 @@ const PokemonDropdown = () => {
         <option value="pikachu">Pikachu</option>
         <option value="charmander">Charmander</option>
         <option value="bulbasaur">Bulbasaur</option>
-        {/* Add more options as needed */}
       </select>
 
       {pokemonData && (
         <div>
           <h3>{pokemonData.name}</h3>
           <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
-          {/* Display more data as needed */}
         </div>
       )}
     </div>

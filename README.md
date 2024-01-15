@@ -6,6 +6,8 @@ In this app we demonstrate few fundamental concepts of handling API concepts in 
 
 Selects a pokemon option from a dropdow and makes a single API call for each selection. This is done using only Axios as an external library and vanilla React.
 
+![app](./src/assets/pokemon-selector-app.png)
+
 - `ChangeEvent` is a built-in type for event handlers
 - `pokemonData` stores the fetched data
 - `setSelectedPokemon` tracks the currently selected pokemon's name (string)
@@ -27,6 +29,12 @@ const [selectedPokemon, setSelectedPokemon] = useState("");
 - `useEffect` hook listens for changes to `selectedPokemon`
 - it is triggered when `pokemonData` or `selectedPokemon` changes.
 - when you select a pokemon `(selectedPokemon)` and no data is loaded `(!pokemonData)` an API call is made fetching the data about that selected pokemon.
+- the double dependency is an extra safe way to control the effect:
+- it runs whenever the state of `selectedPokemon` changes
+- this happens on selection from the dropdown
+- the API call is made
+- `pokemonData` seems redundant but it is not. We check if `pokemonData` is `null` **before** making the API call. This ensure the API call is made only if the data isn't already fetched. Hence, no wasted API calls.
+- `pokemonData` is a safeguard - this practice is optional, but recommended.
 
 ```typescript
 useEffect(() => {
@@ -69,7 +77,7 @@ const handleSelect = (event) => {
 - `axios.get` makes a GET request to the Pokémon API.
 - The dependency array `[pokemonData, selectedPokemon]` means this effect runs when either `pokemonData` or `selectedPokemon` changes.
 
-### Handling User Selection:
+### Handling Selection:
 
 - `handleSelect` is an event handler for the `<select>` element.
 - When a new Pokémon is selected, it resets `pokemonData` to null and sets `selectedPokemon` to the selected value.
