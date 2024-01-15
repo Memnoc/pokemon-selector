@@ -1,5 +1,5 @@
 import "./App.css";
-import PokemonDropdown from "../src/components/PokemonDropdow";
+import PokemonDropdown from "./components/PokemonDropdown";
 
 function App() {
   return (
